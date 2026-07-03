@@ -1,0 +1,11 @@
+[project]
+name = "ncb-timeline"
+version = "0.1.0"
+dependencies = [
+    "streamlit",
+    "pandas",
+    "numpy"
+]
+
+[tool.setuptools]
+packages = ["src"]
