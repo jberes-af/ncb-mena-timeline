@@ -1,14 +1,10 @@
-# /src/domain/entities/entities.py
+# /src/infrastructure/google/sheets/repo_config_inputs/raw_sheets_models.py
 
 from dataclasses import dataclass
 
-"""
-INPUTS
-"""
-
 
 @dataclass(frozen=True)
-class ActorRecordDTO:
+class ActorRecordRaw:
     actor_id: str
     actor_reference: str
     is_country: bool
@@ -16,41 +12,34 @@ class ActorRecordDTO:
 
 
 @dataclass(frozen=True)
-class CountryRecordDTO:
+class CountryRecordRaw:
     country_id: str
     abbreviation_2: str
     abbreviation_3: str
     country_name: str
     country_flag_unicode: str
+    color_1: str | None = None
+    color_2: str | None = None
 
 
 @dataclass(frozen=True)
-class EventActorDTO:
+class EventActorRaw:
     table_id: str
     event_id: str
     actor_id: str
 
 
 @dataclass(frozen=True)
-class EventDescriptionDTO:
+class EventDescriptionRaw:
     event_id: str
     event_description: str
-    year: int
-    month: int | None = None
+    year: str
+    month: str
 
 
 @dataclass(frozen=True)
-class CitationRecordDTO:
+class CitationRecordRaw:
     citation_id: str
-    footnote_number: int
+    footnote_number: str
     event_id: str
     citation: str
-
-
-@dataclass(frozen=True)
-class TimelineInputsDTO:
-    actor_records: tuple[ActorRecordDTO, ...]
-    country_records: tuple[CountryRecordDTO, ...]
-    event_actors: tuple[EventActorDTO, ...]
-    events: tuple[EventDescriptionDTO, ...]
-    citations: tuple[CitationRecordDTO, ...]
