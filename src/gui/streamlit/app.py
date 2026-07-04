@@ -1,13 +1,12 @@
 # /src/gui/streamlit/app.py
-# /src/gui/streamlit/app.py
-
-import streamlit as st
 
 from src.application.dto.show_timeline_dtos import ShowTimelineRequestDTO
 from src.application.use_cases.show_timeline_use_case import ShowTimelineUseCase
 from src.gui.streamlit.components.sidebar_inputs import load_sidebar_inputs
 from src.gui.streamlit.screens.timeline_page import render_timeline_screen
 from src.main.composition_root import app_container
+
+import streamlit as st
 
 
 @st.cache_data(show_spinner="Loading Google Sheets data...")

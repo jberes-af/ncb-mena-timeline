@@ -1,19 +1,17 @@
-
 # /src/gui/streamlit/components/sidebar_inputs.py
-
-import streamlit as st
 
 from src.domain.entities.entities import (
     CountryRecordDTO,
     TimelineInputsDTO,
 )
 
+import streamlit as st
+
 
 def render_country_checkbox_list(
-    *,
-    countries: tuple[CountryRecordDTO, ...],
+        *,
+        countries: tuple[CountryRecordDTO, ...],
 ) -> tuple[str, ...]:
-
     selected_country_ids: list[str] = []
 
     sorted_countries = sorted(
@@ -64,8 +62,8 @@ def render_country_checkbox_list(
 
 
 def render_year_checkbox_list(
-    *,
-    timeline_inputs: TimelineInputsDTO,
+        *,
+        timeline_inputs: TimelineInputsDTO,
 ) -> tuple[int, ...]:
     selected_years: list[int] = []
 
@@ -77,10 +75,9 @@ def render_year_checkbox_list(
 
     for year in years:
         is_selected = st.checkbox(
-            label=f"Select year {year}",
+            label=str(year),
             key=f"year_checkbox_{year}",
             value=True,
-            label_visibility="collapsed",
         )
 
         if is_selected:
@@ -90,8 +87,8 @@ def render_year_checkbox_list(
 
 
 def load_sidebar_inputs(
-    *,
-    timeline_inputs: TimelineInputsDTO,
+        *,
+        timeline_inputs: TimelineInputsDTO,
 ) -> tuple[tuple[str, ...], tuple[int, ...], bool]:
     with st.sidebar:
         st.header("Timeline Filters")
