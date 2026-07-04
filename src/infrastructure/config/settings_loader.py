@@ -28,10 +28,6 @@ def load_settings_from_env(
     project_root: Path = project_root.resolve()
     load_dotenv(project_root / ".env")
 
-
-
-
-
     # --- CONFIG JSON PATH
 
     # config_dir: Path = (project_root / "config").resolve()
@@ -43,16 +39,11 @@ def load_settings_from_env(
             f"App config JSON not found: {app_config_json_path}"
         )
 
-    return Settings(
-        config_path=app_config_json_path,
-        # other settings...
-    )
+    # if not app_config_json_path.exists():
+        # raise SettingsError(f"App config JSON not found: {app_config_json_path}")
 
-    if not app_config_json_path.exists():
-        raise SettingsError(f"App config JSON not found: {app_config_json_path}")
-
-    if not app_config_json_path.is_file():
-        raise SettingsError(f"App config JSON not found: {app_config_json_path}")
+    # if not app_config_json_path.is_file():
+        # raise SettingsError(f"App config JSON not found: {app_config_json_path}")
 
     # --- SHEETS ACCESS MODE
 
