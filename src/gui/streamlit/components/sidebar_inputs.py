@@ -29,7 +29,7 @@ def render_country_checkbox_list(
 
         with col_checkbox:
             is_selected = st.checkbox(
-                "",
+                label=f"Select {country.country_name}",
                 key=f"country_checkbox_{country.country_id}",
                 label_visibility="collapsed",
             )
@@ -77,9 +77,10 @@ def render_year_checkbox_list(
 
     for year in years:
         is_selected = st.checkbox(
-            label=str(year),
+            label=f"Select year {year}",
             key=f"year_checkbox_{year}",
             value=True,
+            label_visibility="collapsed",
         )
 
         if is_selected:
@@ -121,4 +122,4 @@ def load_sidebar_inputs(
 
 
 def _flag_url(abbreviation_2: str) -> str:
-    return f"https://flagcdn.com/w80/{abbreviation_2.lower()}.png"
+    return f"https://flagcdn.com/w80/{abbreviation_2.strip().lower()}.png"
