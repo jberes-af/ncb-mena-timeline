@@ -1,7 +1,5 @@
 # /src/main/compo_root_google_sheets_repo.py
 
-# /src/main/compo_root_google_sheets_repo.py
-
 from src.application.ports.google_sheets_repos.google_sheets_repositories import (
     ConfigInputsRepositoryPort,
 )
