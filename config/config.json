@@ -1,0 +1,35 @@
+{
+  "file_paths_local": {
+    "placeholder_raw_csv_path": "data/raw",
+    "placeholder_out_md": "data/reports"
+  },
+  "google_sheets": {
+    "tables": {
+      "actors": {
+        "file_name": "mena-timeline-project",
+        "worksheet_name": "actors",
+        "worksheet_range": "A1:D"
+      },
+      "actors_in_events": {
+        "file_name": "mena-timeline-project",
+        "worksheet_name": "actors_in_events",
+        "worksheet_range": "A1:C"
+      },
+      "citations": {
+        "file_name": "mena-timeline-project",
+        "worksheet_name": "citations",
+        "worksheet_range": "A1:D"
+      },
+      "countries": {
+        "file_name": "mena-timeline-project",
+        "worksheet_name": "countries",
+        "worksheet_range": "A1:G"
+      },
+      "events": {
+        "file_name": "mena-timeline-project",
+        "worksheet_name": "events",
+        "worksheet_range": "A1:D"
+      }
+    }
+  }
+}
