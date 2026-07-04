@@ -4,11 +4,11 @@ from src.domain.entities.entities import TimelineInputsDTO
 
 from src.application.dto.show_timeline_dtos import ShowTimelineRequestDTO
 
-from src.application.ports.google_sheets_repos.google_sheets_repositories import (
-    ConfigInputsRepositoryPort,
-)
+from src.application.use_cases.show_timeline_use_case import (
+    ShowTimelineUseCase)
 
-from src.application.use_cases.show_timeline_use_case import ShowTimelineUseCase
+from src.application.use_cases.timeline_analytics_use_case import (
+    TimelineAnalyticsUseCase)
 
 from src.gui.streamlit.components.sidebar_inputs import (
     load_sidebar_inputs,
@@ -57,17 +57,17 @@ def run_app() -> None:
         st.info("Select countries and years, then click `Show Timeline`.")
         return
 
-    if not sidebar_inputs.selected_country_ids:
-        st.warning("Please select at least one country.")
+    if not sidebar_inputs.selected_country_ids and not sidebar_inputs.selected_actor_ids:
+        st.warning("Please select at least one country or non-country actor.")
         return
 
-    if not sidebar_inputs.selected_years:
-        st.warning("Please select at least one year.")
-        return
+    # if not sidebar_inputs.selected_years:
+        # st.warning("Please select at least one year.")
+        # return
 
-    use_case = ShowTimelineUseCase()
+    show_timeline_use_case = ShowTimelineUseCase()
 
-    result = use_case.execute(
+    timeline_result = show_timeline_use_case.execute(
         ShowTimelineRequestDTO(
             timeline_inputs=timeline_inputs,
             selected_country_ids=sidebar_inputs.selected_country_ids,
@@ -76,7 +76,16 @@ def run_app() -> None:
         )
     )
 
-    render_timeline_screen(result=result)
+    analytics_result = TimelineAnalyticsUseCase().execute(
+        selected_country_ids=sidebar_inputs.selected_country_ids,
+        selected_actor_ids=sidebar_inputs.selected_actor_ids,
+        timeline_events=timeline_result.events,
+    )
+
+    render_timeline_screen(
+        result=timeline_result,
+        analytics=analytics_result,
+    )
 
 
 if __name__ == "__main__":

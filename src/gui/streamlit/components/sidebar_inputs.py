@@ -30,7 +30,7 @@ def render_country_checkbox_list(
         key=lambda country: country.country_name,
     )
 
-    st.write("Countries")
+    st.subheader("Countries")
 
     for country in sorted_countries:
 
@@ -83,7 +83,7 @@ def render_non_country_actor_checkbox_list(
         key=lambda actor: actor.actor_name,
     )
 
-    st.write("Actors")
+    st.subheader("Actors")
 
     for actor in sorted_actors:
 
@@ -120,6 +120,7 @@ def render_non_country_actor_checkbox_list(
     return tuple(selected_actor_ids)
 
 
+"""
 def render_year_checkbox_list(
         *,
         timeline_inputs: TimelineInputsDTO,
@@ -143,7 +144,7 @@ def render_year_checkbox_list(
             selected_years.append(year)
 
     return tuple(selected_years)
-
+"""
 
 def load_sidebar_inputs(
         *,
@@ -152,13 +153,13 @@ def load_sidebar_inputs(
     with st.sidebar:
         st.header("Timeline Filters")
 
-        selected_country_ids = render_country_checkbox_list(
+        selected_country_ids: tuple[str, ...] = render_country_checkbox_list(
             countries=timeline_inputs.country_records,
         )
 
         st.divider()
 
-        selected_actor_ids = render_non_country_actor_checkbox_list(
+        selected_actor_ids: tuple[str, ...] = render_non_country_actor_checkbox_list(
             actors=tuple(
                 actor
                 for actor in timeline_inputs.actor_records

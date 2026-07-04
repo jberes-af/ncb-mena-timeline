@@ -2,18 +2,13 @@
 
 from dataclasses import dataclass
 
-from src.domain.entities.entities import (
-    TimelineInputsDTO,
-    # EventDescriptionDTO,
-)
+from src.domain.entities.entities import TimelineInputsDTO
 
 
 @dataclass(frozen=True)
-class ShowTimelineRequestDTO:
-    timeline_inputs: TimelineInputsDTO
-    selected_country_ids: tuple[str, ...]
-    selected_actor_ids: tuple[str, ...]
-    selected_years: tuple[int, ...]
+class CitationViewDTO:
+    citation_id: str
+    citation_text: str
 
 
 @dataclass(frozen=True)
@@ -22,9 +17,16 @@ class TimelineEventViewDTO:
     month: int | None
     event_description: str
     country_alpha2_codes: tuple[str, ...]
-    # country_flags: tuple[str, ...]
     country_abbreviations: tuple[str, ...]
-    citation_ids: tuple[str, ...]
+    citations: tuple[CitationViewDTO, ...]
+
+
+@dataclass(frozen=True)
+class ShowTimelineRequestDTO:
+    timeline_inputs: TimelineInputsDTO
+    selected_country_ids: tuple[str, ...]
+    selected_actor_ids: tuple[str, ...]
+    selected_years: tuple[int, ...]
 
 
 @dataclass(frozen=True)

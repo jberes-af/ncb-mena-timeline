@@ -2,13 +2,11 @@
 
 from src.domain.entities.entities import (
     ActorRecordDTO,
-    CountryRecordDTO,
     EventActorDTO,
-    EventDescriptionDTO,
-    TimelineInputsDTO,
 )
 
 from src.application.dto.show_timeline_dtos import (
+    CitationViewDTO,
     ShowTimelineRequestDTO,
     ShowTimelineResultDTO,
     TimelineEventViewDTO,
@@ -45,7 +43,7 @@ class ShowTimelineUseCase:
             event_actors=inputs.event_actors,
         )
 
-        citation_ids_by_event_id = self._build_citation_ids_by_event_id(
+        citations_by_event_id = self._build_citations_by_event_id(
             citation_records=inputs.citations,
         )
 
@@ -97,8 +95,8 @@ class ShowTimelineUseCase:
                     event_description=event.event_description,
                     country_alpha2_codes=tuple(country_alpha2_codes),
                     country_abbreviations=tuple(entity_references),
-                    citation_ids=tuple(
-                        citation_ids_by_event_id.get(event.event_id, [])
+                    citations=tuple(
+                        citations_by_event_id.get(event.event_id, [])
                     ),
                 )
             )
@@ -112,6 +110,7 @@ class ShowTimelineUseCase:
         )
 
         return ShowTimelineResultDTO(
+
             events=tuple(timeline_events),
         )
 
@@ -171,3 +170,23 @@ class ShowTimelineUseCase:
                     break
 
         return matching_event_ids
+
+    @staticmethod
+    def _build_citations_by_event_id(
+            *,
+            citation_records,
+    ) -> dict[str, list[CitationViewDTO]]:
+        citations_by_event_id: dict[str, list[CitationViewDTO]] = {}
+
+        for citation in citation_records:
+            citations_by_event_id.setdefault(
+                citation.event_id,
+                [],
+            ).append(
+                CitationViewDTO(
+                    citation_id=citation.citation_id,
+                    citation_text=citation.citation,
+                )
+            )
+
+        return citations_by_event_id
