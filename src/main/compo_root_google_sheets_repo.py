@@ -1,6 +1,6 @@
 # /src/main/compo_root_google_sheets_repo.py
 
-from googleapiclient.discovery import build
+# /src/main/compo_root_google_sheets_repo.py
 
 from src.application.ports.google_sheets_repos.google_sheets_repositories import (
     ConfigInputsRepositoryPort,
@@ -9,12 +9,8 @@ from src.application.ports.google_sheets_repos.google_sheets_repositories import
 from src.infrastructure.config.settings_model import Settings
 from src.infrastructure.config.app_config_models import AppRuntimeConfig
 
-from src.infrastructure.persistence.google.auth.google_credentials_provider import (
-    OAuthTokenCredentialsProvider,
-)
-
-from src.infrastructure.persistence.google.sheets.sheets_query_service import (
-    GoogleSheetsQueryService,
+from src.infrastructure.persistence.google.sheets.public_sheets_query_service import (
+    PublicGoogleSheetsQueryService,
 )
 
 from src.infrastructure.persistence.google.sheets.repo_config_inputs.sheet_locator import (
@@ -50,22 +46,9 @@ def get_sheets_repository_timeline_inputs(
 def _build_google_sheets_query_service(
     *,
     settings: Settings,
-) -> GoogleSheetsQueryService:
-    creds_provider = OAuthTokenCredentialsProvider(
-        token_json=settings.google_oauth_token_json,
-        scopes=settings.google_scopes,
-    )
-
-    creds = creds_provider.load()
-
-    sheets_service = build(
-        "sheets",
-        "v4",
-        credentials=creds,
-    )
-
-    return GoogleSheetsQueryService(
-        sheets_service=sheets_service,
+) -> PublicGoogleSheetsQueryService:
+    return PublicGoogleSheetsQueryService(
+        api_key=settings.google_sheets_api_key,
     )
 
 
@@ -77,7 +60,7 @@ def _build_config_inputs_repository(
     *,
     settings: Settings,
     app_config: AppRuntimeConfig,
-    query_service: GoogleSheetsQueryService,
+    query_service: PublicGoogleSheetsQueryService,
     mapper: RawSheetToDomainMapper,
 ) -> ConfigInputsRepositoryPort:
     locators = TimelineInputSheetLocators(
