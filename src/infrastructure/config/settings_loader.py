@@ -28,14 +28,25 @@ def load_settings_from_env(
     project_root: Path = project_root.resolve()
     load_dotenv(project_root / ".env")
 
+
+
+
+
     # --- CONFIG JSON PATH
 
-    config_dir: Path = (project_root / "config").resolve()
-    app_config_json_path: Path = (config_dir / "config.json").resolve()
+    # config_dir: Path = (project_root / "config").resolve()
+    # app_config_json_path: Path = (config_dir / "config.json").resolve()
+    app_config_json_path = project_root / "config" / "config.json"
 
-    print("FFFFFFFFFFFFF")
-    print(app_config_json_path)
-    print("FFFFFFFFFFFFF")
+    if not app_config_json_path.exists():
+        raise SettingsError(
+            f"App config JSON not found: {app_config_json_path}"
+        )
+
+    return Settings(
+        config_path=app_config_json_path,
+        # other settings...
+    )
 
     if not app_config_json_path.exists():
         raise SettingsError(f"App config JSON not found: {app_config_json_path}")
