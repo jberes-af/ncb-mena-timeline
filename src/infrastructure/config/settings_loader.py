@@ -33,6 +33,10 @@ def load_settings_from_env(
     config_dir: Path = (project_root / "config").resolve()
     app_config_json_path: Path = (config_dir / "config.json").resolve()
 
+    print("FFFFFFFFFFFFF")
+    print(app_config_json_path)
+    print("FFFFFFFFFFFFF")
+
     if not app_config_json_path.exists():
         raise SettingsError(f"App config JSON not found: {app_config_json_path}")
 
