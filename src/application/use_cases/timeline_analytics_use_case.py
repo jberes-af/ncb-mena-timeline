@@ -3,7 +3,7 @@
 from collections import Counter
 
 from src.application.dto.show_timeline_dtos import TimelineEventViewDTO
-from src.application.dto.analytics_dtos import (
+from src.application.dto.timeline_analytics_dtos import (
     EntityReferenceCountDTO,
     TimelineAnalyticsResultDTO,
 )

@@ -2,9 +2,14 @@
 
 from html import escape
 
+from src.application.dto.dataset_analytics_dtos import DatasetAnalyticsResultDTO
 from src.application.dto.show_timeline_dtos import ShowTimelineResultDTO
 
-from src.application.dto.analytics_dtos import TimelineAnalyticsResultDTO
+from src.application.dto.timeline_analytics_dtos import TimelineAnalyticsResultDTO
+
+from src.gui.streamlit.screens.timeline_page_relationships_chart import (
+    render_actor_pair_counts_chart,
+)
 
 import calendar
 import streamlit as st
@@ -12,25 +17,35 @@ import streamlit as st
 
 def render_timeline_screen(
         *,
-        result: ShowTimelineResultDTO,
-        analytics: TimelineAnalyticsResultDTO | None = None,
+        timeline_events: ShowTimelineResultDTO,
+        timeline_analytics: TimelineAnalyticsResultDTO | None = None,
+        dataset_analytics: DatasetAnalyticsResultDTO | None = None,
 ) -> None:
-    st.header("Summary")
+    st.header("Entity Relationships")
 
-    if analytics is not None:
-        _render_timeline_analytics(analytics)
+    render_actor_pair_counts_chart(
+        pair_counts=dataset_analytics.pair_counts,
+        max_pairs=10,
+    )
 
     st.write("")
 
-    st.header("Timeline")
+    st.header("Timeline Selections Summary")
 
-    if not result.events:
+    if timeline_analytics is not None:
+        _render_timeline_analytics(timeline_analytics)
+
+    st.write("")
+
+    st.header("Timeline Events")
+
+    if not timeline_events.events:
         st.info("No events found for the selected countries and years.")
         return
 
     current_year: int | None = None
 
-    for event in result.events:
+    for event in timeline_events.events:
         if event.year != current_year:
             current_year = event.year
             st.markdown(f"## {event.year}")
