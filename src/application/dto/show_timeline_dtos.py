@@ -19,6 +19,7 @@ class TimelineEventViewDTO:
     country_alpha2_codes: tuple[str, ...]
     country_abbreviations: tuple[str, ...]
     citations: tuple[CitationViewDTO, ...]
+    event_id_label: str
 
 
 @dataclass(frozen=True)

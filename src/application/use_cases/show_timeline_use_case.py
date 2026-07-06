@@ -98,6 +98,7 @@ class ShowTimelineUseCase:
                     citations=tuple(
                         citations_by_event_id.get(event.event_id, [])
                     ),
+                    event_id_label=event.event_id,
                 )
             )
 

@@ -54,6 +54,7 @@ def render_timeline_screen(
             flag_images=_render_flag_images(event.country_alpha2_codes),
             description=escape(event.event_description),
             date_label=_format_date_label(month=event.month),
+            event_id_label=event.event_id_label
         )
 
         _render_event_citations(event.citations)
@@ -64,6 +65,7 @@ def _render_event_card(
         flag_images: str,
         description: str,
         date_label: str,
+        event_id_label: str,
 ) -> None:
     st.html(
         f"""
@@ -83,7 +85,7 @@ def _render_event_card(
             </div>
 
             <div style="font-size:16px;line-height:1.45;margin-top:4px;">
-                {description}
+                {description} ({event_id_label})
             </div>
         </div>
         """

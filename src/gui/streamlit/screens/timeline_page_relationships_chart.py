@@ -34,7 +34,7 @@ def render_actor_pair_counts_chart(
         ]
     )
 
-    with st.expander("Most Common Relationships", expanded=False):
+    with st.expander("Most Common Pairs", expanded=False):
         st.write(
             "Actor pairs that appear together most often in the selected timeline."
         )
