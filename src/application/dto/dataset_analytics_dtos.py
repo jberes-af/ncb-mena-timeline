@@ -19,15 +19,29 @@ class ActorPairCountDTO:
     count: int
 
 
+
+@dataclass(frozen=True)
+class DatasetStatisticsDTO:
+    count_countries: int
+    count_actors: int
+    count_events: int
+    count_citations: int
+    first_year: int | None = None
+    last_year: int | None = None
+    year_range: int | None = None
+
+
+"""
 @dataclass(frozen=True)
 class EventClassificationDTO:
     relationship_types: tuple[str, ...]
     domains: tuple[str, ...]
     mechanisms: tuple[str, ...]
     outcomes: tuple[str, ...]
-
+"""
 
 @dataclass(frozen=True)
 class DatasetAnalyticsResultDTO:
+    dataset_statistics: DatasetStatisticsDTO
     pair_rows: tuple[ActorPairDTO, ...]
     pair_counts: tuple[ActorPairCountDTO, ...]

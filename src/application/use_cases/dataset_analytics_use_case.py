@@ -3,11 +3,15 @@
 from collections import Counter, defaultdict
 from itertools import combinations
 
-from src.domain.entities.entities import TimelineInputsDTO, EventActorDTO
+from src.domain.entities.entities import (
+    EventActorDTO,
+    TimelineInputsDTO,
+)
 
 from src.application.dto.dataset_analytics_dtos import (
     ActorPairDTO,
     ActorPairCountDTO,
+    DatasetStatisticsDTO,
     DatasetAnalyticsResultDTO,
 )
 
@@ -52,6 +56,10 @@ class DatasetAnalyticsUseCase:
             country_by_id=country_by_id,
         )
 
+        dataset_statistics: DatasetStatisticsDTO = (
+            _build_dataset_statistics(timeline_events=timeline_inputs)
+        )
+
         """
         FOR DEV ONLY - do not write to local file when Streamlit hosted 
         _export_actor_pair_rows(
@@ -61,6 +69,7 @@ class DatasetAnalyticsUseCase:
         """
 
         return DatasetAnalyticsResultDTO(
+            dataset_statistics=dataset_statistics,
             pair_rows=tuple(pair_rows),
             pair_counts=tuple(pair_counts),
         )
@@ -156,6 +165,27 @@ def _export_actor_pair_rows(
 
         for row in rows:
             writer.writerow(asdict(row))
+
+
+def _build_dataset_statistics(
+        timeline_events: TimelineInputsDTO) -> DatasetStatisticsDTO:
+    count_events: int = len({
+        t for t in timeline_events.events
+    })
+
+    years = {event.year for event in timeline_events.events}
+    first_year = min(years)
+    last_year = max(years)
+
+    return DatasetStatisticsDTO(
+        count_countries=len(timeline_events.country_records),
+        count_actors=len(timeline_events.actor_records),
+        count_events=count_events,
+        count_citations=len(timeline_events.citations),
+        first_year=first_year,
+        last_year=last_year,
+        year_range=last_year - first_year,
+    )
 
 
 """

@@ -2,7 +2,7 @@
 
 from html import escape
 
-from src.application.dto.dataset_analytics_dtos import DatasetAnalyticsResultDTO
+from src.application.dto.dataset_analytics_dtos import DatasetAnalyticsResultDTO, DatasetStatisticsDTO
 from src.application.dto.show_timeline_dtos import ShowTimelineResultDTO
 
 from src.application.dto.timeline_analytics_dtos import TimelineAnalyticsResultDTO
@@ -21,7 +21,17 @@ def render_timeline_screen(
         timeline_analytics: TimelineAnalyticsResultDTO | None = None,
         dataset_analytics: DatasetAnalyticsResultDTO | None = None,
 ) -> None:
-    st.header("Entity Relationships")
+
+    st.header("Dataset Summary")
+
+
+    # st.subheader("Dataset Statistics")
+
+    _render_dataset_statistics(
+        dataset_analytics.dataset_statistics
+    )
+
+    # st.subheader("Entity Relationships")
 
     render_actor_pair_counts_chart(
         pair_counts=dataset_analytics.pair_counts,
@@ -188,3 +198,28 @@ def _render_timeline_analytics(
                 hide_index=True,
             )
         """
+
+
+def _render_dataset_statistics(
+        dataset_statistics: DatasetStatisticsDTO,
+    ):
+    stats = dataset_statistics
+
+    actors: int = stats.count_actors - stats.count_countries
+    time_period: str = f"{stats.year_range} Years"
+    year_range: str = f"{stats.first_year} - {stats.last_year}"
+
+    with st.expander("Dataset Statistics", expanded=False):
+        col1, col2, col3 = st.columns(3)
+
+        with col1:
+            st.metric("Events", stats.count_events)
+            st.metric("Citations", stats.count_citations)
+
+        with col2:
+            st.metric("Countries", stats.count_countries)
+            st.metric("Non-country Actors", actors)
+
+        with col3:
+            st.metric("Time Period", time_period)
+            st.metric("Year Range", year_range)
